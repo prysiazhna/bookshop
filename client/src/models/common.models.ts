@@ -18,7 +18,7 @@ export interface FormField {
     type: string;
     label: string;
     required: boolean;
-};
+}
 
 export interface FormConfig {
     title: string;
@@ -36,14 +36,26 @@ export interface Book {
     stock: boolean;
     rating: number;
     img?: string;
+    author?: Author;
 }
 
-export interface Author{
-    id:number;
-    name:string;
+export interface CartItem {
+    book: Book;
+    quantity: number;
 }
 
-export interface Category{
-    id:number;
-    name:string;
+export interface Author {
+    id: number;
+    name: string;
 }
+
+export interface Category {
+    id: number;
+    name: string;
+}
+
+export interface MenuItemsModel {
+    label: string;
+    path: string;
+}
+

@@ -3,8 +3,6 @@ import { User } from "../../../models/auth.models";
 import {useAppDispatch, useAppSelector} from "../../../store/hooks";
 import {deleteUser, selectUsers, selectUsersError, selectUsersLoading} from "../../../store/slices/userSlice";
 import Table from "../../common/DataTable";
-import {Author} from "../../../models/common.models";
-import {deleteAuthor} from "../../../store/slices/authorSlice";
 
 const UsersPage: React.FC = () => {
     const dispatch = useAppDispatch();
@@ -31,7 +29,7 @@ const UsersPage: React.FC = () => {
                     actions={(user: User) => (
                         <div className="flex-row justify-center items-center space-y-2">
                             <button
-                                className="w-16 py-1 bg-purple-800 text-white text-xs rounded hover:bg-purple-900"
+                                className="w-16 py-1 bg-gray-200 text-black text-xs rounded hover:bg-gray-300"
                                 onClick={() => handleDeleteUser(user.id)}>
                                 Delete
                             </button>

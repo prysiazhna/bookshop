@@ -9,7 +9,7 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ children }) => {
     const { pathname } = useLocation();
     const isAdminRoute = pathname.startsWith('/admin');
-    const className= isAdminRoute? "mt-16": "mt-32";
+    const className= isAdminRoute? "mt-16": "mt-[125px]";
     return (
         <div>
             <Header />

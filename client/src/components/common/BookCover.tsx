@@ -5,7 +5,7 @@ interface BookCoverProps {
     imgPreview?: string | null;
     title: string;
     className?: string;
-    placeholderImg: string;
+    placeholderImg?: string;
 }
 
 const BookCover: React.FC<BookCoverProps> = ({ img, imgPreview, title, className, placeholderImg }) => {

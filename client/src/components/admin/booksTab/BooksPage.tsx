@@ -19,6 +19,7 @@ import {useAppDispatch} from "../../../store/hooks";
 import Pagination from "../../common/Pagination";
 import bookPlaceholder from "../../../assets/book-placeholder.png";
 import BookCover from "../../common/BookCover";
+import Chips from "../../common/Chips";
 
 const BooksPage: React.FC = () => {
     const dispatch = useAppDispatch();
@@ -81,37 +82,35 @@ const BooksPage: React.FC = () => {
                     placeholderImg={bookPlaceholder}
                 />)
         },
-        {header: 'Title', render: (book: Book) => book.title},
+        {
+            header: 'Title',
+            render: (book: Book) => book.title
+        },
         {
             header: 'Author',
             render: (book: Book) => {
-                const author = authors.find(author => author.id === book.authorId);
-                return author?.name;
-            },
+                return authors.find(author => author.id === book.authorId)?.name;
+            }
         },
         {
             header: 'Categories',
-            render: (book: Book) => (
-                <div className="flex flex-wrap gap-2">
-                    {book.categoryIds?.map(categoryId => {
-                        const category = categories.find(category => category.id === categoryId);
-                        return (
-                            <span key={categoryId} className="px-2 py-1 bg-gray-200 text-black text-xs rounded">
-                                {category?.name}
-                            </span>
-                        );
-                    })}
-                </div>
-            ),
+            render: (book: Book) => (<Chips book={book} categories={categories}/>),
         },
-        {header: 'Price', render: (book: Book) => `$${book.price}`},
         {
-            header: 'Stock', render: (book: Book) => (
+            header: 'Price',
+            render: (book: Book) => `$${book.price}`
+        },
+        {
+            header: 'Stock',
+            render: (book: Book) => (
                 book.stock ? <CheckCircleIcon className="h-7 w-7 text-teal-700"/> :
                     <MinusCircleIcon className="h-7 w-7 text-red-900"/>
             )
         },
-        {header: 'Rating', render: (book: Book) => book.rating},
+        {
+            header: 'Rating',
+            render: (book: Book) => book.rating
+        }
     ], [authors]);
 
     const renderTable = useMemo(() => (
@@ -119,7 +118,7 @@ const BooksPage: React.FC = () => {
             data={books}
             columns={bookColumns}
             actions={(book: Book) => (
-                <div className="flex flex-row justify-center items-center  flex-nowrap">
+                <div className="flex flex-row justify-center items-center flex-nowrap">
                     <button
                         className="w-16 py-1 bg-purple-500 text-white text-xs rounded hover:bg-purple-600 mr-2"
                         onClick={() => handleEditBook(book.id)}>

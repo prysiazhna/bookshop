@@ -1,4 +1,4 @@
-const {Book} = require('../models/models')
+const {Book, Author} = require('../models/models')
 const ApiErrorHandler = require('../errorHandler/apiErrorHandler');
 const uuid = require('uuid')
 const path = require('path');
@@ -34,33 +34,6 @@ class BookController {
             next(ApiErrorHandler.internal('Something went wrong during book creation'));
         }
     }
-
-    // async getAll(req, res, next) {
-    //     try {
-    //         const { authorId, categoryIds, limit = 9, page = 1 } = req.query;
-    //         const offset = (page - 1) * limit;
-    //
-    //         const categoryIdsArray = categoryIds
-    //             ? categoryIds.split(',').map(Number).filter(Boolean)
-    //             : [];
-    //
-    //         const queryOptions = {
-    //             limit: Number(limit),
-    //             offset: Number(offset),
-    //             where: {
-    //                 ...(authorId && { authorId: Number(authorId) }),
-    //                 ...(categoryIdsArray.length > 0 && { categoryIds: { [Op.contains]: categoryIdsArray } })
-    //             }
-    //         };
-    //
-    //         const books = await Book.findAndCountAll(queryOptions);
-    //
-    //         return res.json(books);
-    //     } catch (error) {
-    //         next(ApiErrorHandler.internal('Something went wrong while fetching books'));
-    //     }
-    // }
-
     async getAll(req, res, next) {
         try {
             const { authorId, categoryIds, limit = 9, page = 1 } = req.query;
@@ -75,8 +48,14 @@ class BookController {
                 offset: Number(offset),
                 where: {
                     ...(authorId && { authorId: Number(authorId) }),
-                    ...(categoryIdsArray.length > 0 && { categoryIds: { [Op.contains]: categoryIdsArray } })
-                }
+                    ...(categoryIdsArray.length > 0 && { categoryIds: { [Op.overlap]: categoryIdsArray } })
+                },
+                include: [
+                    {
+                        model: Author,
+                        as: 'author'
+                    }
+                ]
             };
 
             const { count, rows } = await Book.findAndCountAll(queryOptions);
@@ -88,6 +67,7 @@ class BookController {
                 currentPage: Number(page),
             });
         } catch (error) {
+            console.error('Error fetching books:', error);
             next(ApiErrorHandler.internal('Something went wrong while fetching books'));
         }
     }

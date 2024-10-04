@@ -4,6 +4,7 @@ import bookReducer from './slices/bookSlice';
 import authorReducer from './slices/authorSlice';
 import categoryReducer from './slices/categorySlice';
 import userReducer from './slices/userSlice';
+import cartReducer from './slices/cartSlice';
 export const store = configureStore({
     reducer: {
         auth: authReducer,
@@ -11,6 +12,7 @@ export const store = configureStore({
         authors: authorReducer,
         categories: categoryReducer,
         users: userReducer,
+        cart: cartReducer
     },
     // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
 });

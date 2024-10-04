@@ -2,37 +2,21 @@ const jwt = require('jsonwebtoken');
 const ApiErrorHandler = require('../errorHandler/ApiErrorHandler');
 
 function verifyToken(req, res, next) {
-    if (req.method === "OPTIONS") {
+    if (req.method === 'OPTIONS') {
         return next();
     }
 
     try {
         const token = req.headers.authorization?.split(' ')[1];
         if (!token) {
-            return next(ApiErrorHandler.forbidden('Unauthorized'));
+            return next(ApiErrorHandler.forbidden('Unauthorized: No token provided'));
         }
 
-        const decoded = jwt.verify(token, process.env.SECRET_KEY);
-        req.user = decoded;
+        req.user = jwt.verify(token, process.env.SECRET_KEY);
         return next();
-    } catch (e) {
-        return next(ApiErrorHandler.forbidden('Unauthorized'));
+    } catch (error) {
+        return next(ApiErrorHandler.forbidden('Unauthorized: Invalid token'));
     }
 }
 
-module.exports = {
-    verifyToken,
-    checkRole: function (role) {
-        return function (req, res, next) {
-            verifyToken(req, res, function () {
-                if(!req.user?.role){
-                    return next(ApiErrorHandler.forbidden('Unauthorized'));
-                }
-                if (req.user.role !== role) {
-                    return next(ApiErrorHandler.forbidden('Access denied'));
-                }
-                next();
-            });
-        };
-    }
-};
+module.exports = { verifyToken };

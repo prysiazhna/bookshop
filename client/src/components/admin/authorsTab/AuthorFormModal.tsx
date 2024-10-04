@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {Author, Category} from '../../../models/common.models';
+import {Author} from '../../../models/common.models';
 import FormModal from '../../common/FormModal';
 import InputField from "../../common/Input";
 

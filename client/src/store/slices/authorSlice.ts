@@ -1,9 +1,7 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {Author, Category} from "../../models/common.models";
+import {Author} from "../../models/common.models";
 import {authorService} from "../../services/authorService";
 import {RootState} from "../store";
-import {categoryService} from "../../services/categoryService";
-import {createCategory, deleteCategory, updateCategory} from "./categorySlice";
 
 interface AuthorState {
     authors: Author[];

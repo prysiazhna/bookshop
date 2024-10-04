@@ -1,12 +1,8 @@
 import axios from 'axios';
-import {Book, Category} from "../models/common.models";
+import {Book} from "../models/common.models";
 
 const API_URL = 'http://localhost:4000/api/book';
 
-// const getBooks = async () => {
-//     const response = await axios.get(API_URL);
-//     return response.data.rows;
-// };
 const getBooks = async (page = 1, limit = 9) => {
     const response = await axios.get(`${API_URL}?page=${page}&limit=${limit}`);
     return response.data;

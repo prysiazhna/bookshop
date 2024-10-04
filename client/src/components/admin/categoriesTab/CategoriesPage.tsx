@@ -52,12 +52,14 @@ const CategoriesPage: React.FC = () => {
 
     return (
         <div className="p-4 w-full">
-            <h2 className="text-xl font-bold mb-4">Categories</h2>
-            <button
-                className="mb-4 px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600"
-                onClick={handleAddCategory}>
-                Add Category
-            </button>
+            <div className="flex justify-between">
+                <h2 className="text-xl font-bold mb-4">Categories</h2>
+                <button
+                    className="mb-4 px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600"
+                    onClick={handleAddCategory}>
+                    Add Category
+                </button>
+            </div>
             {loading && <p>Loading...</p>}
             {error && <p className="text-red-500">{error}</p>}
             {!loading && !error && (
@@ -65,14 +67,14 @@ const CategoriesPage: React.FC = () => {
                     data={categories}
                     columns={categoryColumns}
                     actions={(category: Category) => (
-                        <div className="flex-row justify-center items-center space-y-2">
+                        <div className="flex flex-row justify-center items-center flex-nowrap">
                             <button
                                 className="w-16 py-1 bg-purple-500 text-white text-xs rounded hover:bg-purple-600 mr-2"
                                 onClick={() => handleEditCategory(category.id)}>
                                 Edit
                             </button>
                             <button
-                                className="w-16 py-1 bg-purple-800 text-white text-xs rounded hover:bg-purple-900"
+                                className="w-16 py-1 bg-gray-200 text-black text-xs rounded hover:bg-gray-300"
                                 onClick={() => handleDeleteCategory(category.id)}>
                                 Delete
                             </button>

@@ -6,6 +6,7 @@ import MainPage from "./pages/Main";
 import Layout from './Layout';
 import AdminPanel from "./pages/AdminPanel";
 import Profile from "./pages/Profile";
+import CartPage from "./pages/CartPage";
 
 // const isAuthenticated = () => {
 //     return localStorage.getItem('authToken') !== null;
@@ -20,6 +21,7 @@ function App() {
           <Layout>
               <Routes>
                   <Route path="/" element={<MainPage />} />
+                  <Route path="/cart" element={<CartPage />} />
                   <Route path="/signin" element={<SignIn />} />
                   <Route path="/signup" element={<SignUp />} />
                   <Route path="/admin/*" element={<AdminPanel />} />

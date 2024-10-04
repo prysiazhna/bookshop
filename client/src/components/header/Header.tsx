@@ -1,18 +1,20 @@
 import React from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import {Link, useLocation, useNavigate} from 'react-router-dom';
 import NavMenu from './NavMenu';
 import SearchBar from './SearchBar';
-import { ShoppingBagIcon } from '@heroicons/react/24/outline';
-import { signOut } from '../../store/slices/authSlice';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import {ShoppingBagIcon} from '@heroicons/react/24/outline';
+import {signOut} from '../../store/slices/authSlice';
+import {useAppDispatch, useAppSelector} from '../../store/hooks';
 import HamburgerMenu from "./HumburgerMenu";
+import {selectCartCount} from "../../store/slices/cartSlice";
 
 const Header: React.FC = () => {
-    const { isAuthenticated } = useAppSelector((state) => state.auth);
+    const {isAuthenticated} = useAppSelector((state) => state.auth);
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    const { pathname } = useLocation();
+    const {pathname} = useLocation();
     const isAdminRoute = pathname.startsWith('/admin');
+    const cartCount = useAppSelector(selectCartCount);
 
     const handleLogout = () => {
         dispatch(signOut());
@@ -39,28 +41,34 @@ const Header: React.FC = () => {
 
     const renderCartLink = () =>
         !isAdminRoute && (
-            <Link to="/cart" className="text-gray-800 py-1">
-                <ShoppingBagIcon className="h-5 w-5" />
+            <Link to="/cart" className="relative text-gray-800 py-1">
+                <ShoppingBagIcon className="h-5 w-5"/>
+                {cartCount > 0 && (
+                    <span className="absolute -top-2 -right-2 bg-purple-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                    {cartCount}
+                  </span>
+                )}
             </Link>
         );
 
     const renderSearchBar = () =>
         !isAdminRoute && (
             <div className="hidden big:flex justify-center w-2/5">
-                <SearchBar />
+                <SearchBar/>
             </div>
         );
 
     const renderNavMenu = () =>
         !isAdminRoute && (
             <div className="hidden big:block">
-                <NavMenu />
+                <NavMenu/>
             </div>
         );
 
     return (
         <header className="bg-white text-gray-800 border-b border-gray-300 fixed top-0 w-full z-50">
-            <div className="flex items-center justify-between px-6 xs:flex-row xs:pb-4 xs:pt-4 xss:flex-col xss:pb-1 xss:pt-1">
+            <div
+                className="flex items-center justify-between px-6 xs:flex-row xs:pb-4 xs:pt-4 xss:flex-col xss:pb-1 xss:pt-1">
                 <div className="flex items-center">
                     <Link to="/" className="font-bold text-purple-700 xs:text-3xl xss:text-xl">
                         BOOKSHOP.com
@@ -79,9 +87,9 @@ const Header: React.FC = () => {
             {renderNavMenu()}
 
             <div className="big:hidden w-full px-6 pb-4 flex items-center">
-                <HamburgerMenu />
+                <HamburgerMenu/>
                 <div className="flex-grow">
-                    <SearchBar />
+                    <SearchBar/>
                 </div>
             </div>
         </header>

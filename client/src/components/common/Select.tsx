@@ -43,8 +43,7 @@ const Select: React.FC<SelectProps> = ({ options, selectedOption, onChange, plac
         <div ref={dropdownRef} className="relative w-full">
             <div
                 className="flex w-full rounded-md border-0 py-1.5 px-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                onClick={handleInputClick} // Ensure that clicking the div toggles the dropdown
-            >
+                onClick={handleInputClick}>
                 <input
                     type="text"
                     value={inputValue || (selectedOption ? options.find(o => o.value === selectedOption)?.label : '')}
@@ -56,8 +55,7 @@ const Select: React.FC<SelectProps> = ({ options, selectedOption, onChange, plac
             {dropdownOpen && (
                 <div
                     className="absolute z-10 w-full bg-white border border-gray-300 mt-1 rounded shadow-lg"
-                    style={{ maxHeight: '200px', overflowY: 'auto' }}
-                >
+                    style={{ maxHeight: '200px', overflowY: 'auto' }}>
                     {filteredOptions.length === 0 ? (
                         <div className="p-2 text-gray-500 text-center">No options</div>
                     ) : (
@@ -65,8 +63,7 @@ const Select: React.FC<SelectProps> = ({ options, selectedOption, onChange, plac
                             <div
                                 key={option.value}
                                 onClick={() => handleOptionClick(option.value)}
-                                className="cursor-pointer p-2 hover:bg-gray-100"
-                            >
+                                className="cursor-pointer p-2 hover:bg-gray-100">
                                 {option.label}
                             </div>
                         ))

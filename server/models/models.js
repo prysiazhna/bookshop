@@ -14,9 +14,11 @@ const Cart = sequelize.define('Cart', {
     total: {type: DataTypes.FLOAT, allowNull: false, defaultValue: 0}
 });
 
-const CartBook = sequelize.define('CartBook', {
-    id: {type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true},
-    quantity: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 1 }
+const CartItem = sequelize.define('CartItem', {
+    id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
+    quantity: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 1 },
+    price: { type: DataTypes.FLOAT, allowNull: false },
+    bookId: { type: DataTypes.INTEGER, references: { model: 'Books', key: 'id' }, field: 'bookId' },
 });
 
 const Category = sequelize.define('Category', {
@@ -51,28 +53,29 @@ const BookRate = sequelize.define('BookRate', {
     comment: { type: DataTypes.TEXT, allowNull: true }
 });
 
-const OrderBook = sequelize.define('OrderBook', {
-    id: {type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true},
-    quantity: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 1 }
-});
 
-User.hasOne(Cart);
-Cart.belongsTo(User);
-
-Cart.belongsToMany(Book, { through: CartBook });
-Book.belongsToMany(Cart, { through: CartBook });
+User.hasOne(Cart, { foreignKey: 'userId' });
+Cart.belongsTo(User, { foreignKey: 'userId' });
 
 User.hasMany(Order);
 Order.belongsTo(User);
 
-Order.belongsToMany(Book, { through: OrderBook });
-Book.belongsToMany(Order, { through: OrderBook });
+CartItem.belongsTo(Cart, { foreignKey: 'cartId' });
+Cart.hasMany(CartItem, {
+    as: 'cartItems',
+    foreignKey: 'cartId',
+});
 
-// Define the association
-Author.hasMany(Book, { foreignKey: 'authorId',  onDelete: 'CASCADE'  });
-Book.belongsTo(Author, { foreignKey: 'authorId', onDelete: 'CASCADE' });
 
-// Book can belong to many Categories, and a Category can have many Books (many-to-many)
+Book.hasMany(CartItem, { foreignKey: 'bookId' });
+CartItem.belongsTo(Book, {
+    as: 'book',
+    foreignKey: 'bookId',
+});
+
+Author.hasMany(Book, { foreignKey: 'authorId', as: 'Books', onDelete: 'CASCADE' });
+Book.belongsTo(Author, { foreignKey: 'authorId', as: 'author', onDelete: 'CASCADE' });
+
 Book.belongsToMany(Category, { through: 'BookCategory' });
 Category.belongsToMany(Book, { through: 'BookCategory' });
 
@@ -83,11 +86,10 @@ Book.belongsToMany(User, { through: BookRate });
 module.exports = {
     User,
     Cart,
-    CartBook,
+    CartItem,
     Book,
     Author,
     Order,
     BookRate,
-    Category,
-    OrderBook
+    Category
 }
